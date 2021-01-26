@@ -53,13 +53,6 @@ def transferAudio(sourceVideo, targetVideo):
     # remove temp directory
     shutil.rmtree("temp")
 
-    
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-torch.set_grad_enabled(False)
-if torch.cuda.is_available():
-    torch.backends.cudnn.enabled = True
-    torch.backends.cudnn.benchmark = True
-
 parser = argparse.ArgumentParser(description='Interpolation for a pair of images')
 parser.add_argument('--video', dest='video', type=str, default=None)
 parser.add_argument('--output', dest='output', type=str, default=None)
@@ -72,6 +65,13 @@ parser.add_argument('--png', dest='png', action='store_true', help='whether to v
 parser.add_argument('--ext', dest='ext', type=str, default='mp4', help='vid_out video extension')
 parser.add_argument('--exp', dest='exp', type=int, default=1)
 args = parser.parse_args()
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.set_grad_enabled(False)
+if torch.cuda.is_available():
+    torch.backends.cudnn.enabled = True
+    torch.backends.cudnn.benchmark = True
+
 assert (not args.video is None or not args.img is None)
 if not args.img is None:
     args.png = True
